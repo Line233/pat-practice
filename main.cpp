@@ -78,7 +78,9 @@ void generate(void)
     outfile.open("data.txt");
     srand(time(NULL));
     //generate content
-    int n = 1000, p = 0.99, r = 100;
+    int n = 1000;
+    double p = 0.99;
+    double r = 0.555555555555555555555555555555555555;
     outfile << n << " " << p << " " << r << endl;
     int *tree = (int *)malloc(sizeof(int) * n);
     do

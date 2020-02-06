@@ -1,83 +1,92 @@
 // https://pintia.cn/problem-sets/994805342720868352/problems/994805376476626944
 #include <iostream>
+#include <cmath>
+#include <fstream>
 using namespace std;
 
 int *menbers;
 int men_num;
-double price;
-float interest;
+double price = 0;
+double interest = 0;
+int root = 0;
 
-int level;
-int highlevel_num;
+int level = 0;
+int highlevel_num = 0;
 
 void read()
 {
     cin >> men_num >> price >> interest;
     menbers = (int *)malloc(sizeof(int) * men_num);
     for (int i = 0; i < men_num; i++)
+    {
         cin >> menbers[i];
+        if (menbers[i] == -1)
+            root = i;
+    }
 }
-int get_level(int* tree,int* level,int i)
+int get_level(int *tree, int *level, int i)
 {
-    if(level[i]==-1)
-        return get_level(tree,level,tree[i])+1;
+    if (level[i] == -1)
+    {
+        int le = get_level(tree, level, tree[i]) + 1;
+        level[i] = le;
+        return le;
+    }
+    else
+    {
+        return level[i];
+    }
 }
 void get_highest_level()
 {
     int *done = (int *)malloc(sizeof(int) * men_num);
     for (int i = 0; i < men_num; i++)
         done[i] = -1;
+    done[root] = 0;
     for (int i = 0; i < men_num; i++)
     {
-        if (done[i] == -1)
+        int l = get_level(menbers, done, i);
+        if (l > level)
         {
-            int lev = 0;
-            int k = i;
-            while (k != -1)
-            {
-                if (done[k] != -1)
-                {
-                    lev += done[k];
-                    break;
-                }
-                k = menbers[k];
-                lev++;
-            }
-            if (lev > level)
-            {
-                level = lev;
-                highlevel_num = 1;
-            }
-            else if (lev == level)
-            {
-                highlevel_num++;
-            }
-            k = i;
-            while (done[k] == -1 && lev > 0)
-            {
-                done[k] = lev;
-                k = menbers[k];
-                lev--;
-            }
+            level = l;
+            highlevel_num = 1;
+        }
+        else if (l == level)
+        {
+            highlevel_num++;
         }
     }
-    if (level != 0)
-        level--;
 }
 void print()
 {
-    float r = 1 + interest / 100;
-    double p = price;
-    for (int i = 0; i < level; i++)
-    {
-        p *= r;
-    }
-    printf("%.2lf %d", p, highlevel_num);
+    double p = price * pow(1 + interest / 100, level);
+    char c[50];
+    sprintf(c, "%.2lf %d", p, highlevel_num);
+    cout << c;
 }
 int main(void)
 {
-    read();
-    get_highest_level();
-    print();
+    // ifstream ifile;
+    // ofstream ofile;
+    // ifile.open("data.txt");
+    // ofile.open("1090.txt");
+    // cout.rdbuf(ofile.rdbuf());
+    // cin.rdbuf(ifile.rdbuf());
+    //
+    try
+    {
+        read();
+        get_highest_level();
+        print();
+    }
+    catch (int e)
+    {
+        cout << "error";
+    }
+
+    //
+    // ifile.close();
+    // ofile.close();
+    //
     return 0;
 }

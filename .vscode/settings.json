@@ -3,6 +3,9 @@
         "ostream": "cpp",
         "iostream": "cpp",
         "*.tcc": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "fstream": "cpp",
+        "string": "cpp",
+        "cmath": "cpp"
     }
 }
