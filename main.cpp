@@ -9,29 +9,30 @@ using namespace std;
 
 void generate(void);
 bool compare(void);
-void _run(LPWSTR name);
-void run(void);
+void run(string name);
 
-string name1 = "1090";
+string name1 = "1105";
 string name2 = "tmp";
 
 int main(void)
 {
     for (int i = 0; i < 100; i++)
     {
+        cout << "TEST\t" << i << endl;
         generate();
         try
         {
-            run();
+            run(name1);
         }
         catch (int e)
         {
-            cout << "error";
+            cout << "error" << endl;
         }
-        bool res = compare();
-        cout << (res ? "true" : "false") << endl;
-        if (res == false)
-            system("pause");
+        cout<<endl;
+        // bool res = compare();
+        // cout << (res ? "true" : "false") << endl;
+        // if (res == false)
+        //     system("pause");
         //
     }
     system("pause");
@@ -78,36 +79,19 @@ void generate(void)
     outfile.open("data.txt");
     srand(time(NULL));
     //generate content
-    int n = 1000;
-    double p = 0.99;
-    double r = 0.555555555555555555555555555555555555;
-    outfile << n << " " << p << " " << r << endl;
-    int *tree = (int *)malloc(sizeof(int) * n);
-    do
-    {
-        int root = rand() % n;
-        for (int i = 0; i < n; i++)
-        {
-            if (i == root)
-                tree[i] = -1;
-            else
-            {
-                int k = rand() % n;
-                if (k == i)
-                    k = (k + 1) % n;
-                tree[i] = k;
-            }
-        }
-    } while (iscirle(tree, n));
+    int n = rand() % 10000;
+    outfile << n << endl;
     for (int i = 0; i < n; i++)
     {
-        outfile << tree[i] << " ";
+        int k = rand();
+        outfile << k << " ";
     }
     //
     outfile.close();
 }
-void _run(string name)
+void run(string name)
 {
+    string str = name + ".exe";
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
 
@@ -121,11 +105,11 @@ void _run(string name)
     //     return 0;
     // }
 
-    TCHAR *path = new TCHAR[name.size() + 1];
-    path[name.size()] = 0;
+    TCHAR *path = new TCHAR[str.size() + 1];
+    path[str.size()] = 0;
     //As much as we'd love to, we can't use memcpy() because
     //sizeof(TCHAR)==sizeof(char) may not be true:
-    copy(name.begin(), name.end(), path);
+    copy(str.begin(), str.end(), path);
     // Start the child process.
     if (!CreateProcess(NULL,  // No module name (use command line)
                        path,  // Command line
@@ -149,11 +133,7 @@ void _run(string name)
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 }
-void run(void)
-{
-    _run(name2 + ".exe");
-    _run(name1 + ".exe");
-}
+
 bool compare(void)
 {
     ifstream data1, data2;
