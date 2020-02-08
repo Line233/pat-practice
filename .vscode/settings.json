@@ -8,6 +8,12 @@
         "string": "cpp",
         "cmath": "cpp",
         "array": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp"
     }
 }
