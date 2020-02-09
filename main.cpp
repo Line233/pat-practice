@@ -11,24 +11,24 @@ void generate(void);
 bool compare(void);
 void run(string name);
 
-string name1 = "1105";
+string name1 = "1135";
 string name2 = "tmp";
 
 int main(void)
 {
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 1; i++)
     {
         cout << "TEST\t" << i << endl;
         generate();
         try
         {
-            run(name1);
+            // run(name1);
         }
         catch (int e)
         {
             cout << "error" << endl;
         }
-        cout<<endl;
+        cout << endl;
         // bool res = compare();
         // cout << (res ? "true" : "false") << endl;
         // if (res == false)
@@ -39,52 +39,42 @@ int main(void)
     return 0;
 }
 
-bool iscirle(int *tree, int n)
+int ge(int *tree, int n, int min_, int max_)
 {
-    int *in = (int *)malloc(sizeof(int) * n);
-    fill(in, in + n, 0);
-    for (int i = 0; i < n; i++)
+    if (n == 0)
+        return 0;
+    if (n == 1)
     {
-        if (tree[i] != -1)
-            in[tree[i]]++;
+        tree[0] = rand() % (max_ - min_) + min_ * ((rand() % 2) == 1 ? 1 : -1);
+        return 0;
     }
-    int num = 0;
-    while (true)
+    int l = rand() % (n - 1);
+    int r = n - 1 - l;
+    int c = 0;
+    while (c - min_ < l || max_ - c < r)
     {
-        int p = 0;
-        for (p = 0; p < n && in[p] != 0; p++)
-        {
-        }
-        if (p != n)
-        {
-            if (tree[p] != -1)
-                in[tree[p]]--;
-            in[p] = -1;
-            num++;
-        }
-        else if (p == n && num != n)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        c = rand() % (max_ - min_) + min_;
     }
-}
+    tree[0] = c * ((rand() % 1) == 1 ? 1 : -1);
 
+    ge(tree + 1, l, min_ + 1, c);
+    ge(tree + l + 1, r, c, max_ - 1);
+    return 0;
+}
 void generate(void)
 {
     ofstream outfile;
     outfile.open("data.txt");
     srand(time(NULL));
     //generate content
-    int n = rand() % 10000;
-    outfile << n << endl;
+    int n = rand() % 40;
+    int *tree = (int *)malloc(sizeof(int) * n);
+    ge(tree, n, 1, 1000);
+    outfile << "1" << endl
+            << n << endl;
     for (int i = 0; i < n; i++)
     {
-        int k = rand();
-        outfile << k << " ";
+        outfile << tree[i] << " ";
     }
     //
     outfile.close();
