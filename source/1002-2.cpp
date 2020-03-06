@@ -28,9 +28,9 @@ int main()
     cin >> n;
     for (int i = 0; i < n; i++)
     {
-         int ex;
+        int ex;
         double co;
-        cin>>ex>>co;
+        cin >> ex >> co;
         num2[ex] = co;
     }
     n = 0;
@@ -40,13 +40,12 @@ int main()
         if (res[i] != 0)
             n++;
     }
-    cout << n ;
-    res=num1+num2;
-    for (int i = ex_n-1; i >-1; i--)
+    cout << n;
+    for (int i = ex_n - 1; i > -1; i--)
     {
-        if(res[i]!=0)
+        if (res[i] != 0)
         {
-            printf(" %d %.1f",i,res[i]);
+            printf(" %d %.1f", i, res[i]);
         }
     }
 }
