@@ -1,32 +1,29 @@
-#include<stdio.h>
-bool IsMeasurable(int target, int weights[], int nWeights)
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+long long gethash(char *c, int n)
 {
-
-    if (nWeights == 0)
-
+    int res = 0;
+    for (int i = 0; i < n - 1; i++)
     {
-
-        if (target == 0)
-            return true;
-
-        else
-            return false;
+        res += c[i];
+        res *= 256;
     }
-
-    bool a = IsMeasurable(target - weights[nWeights - 1], weights, nWeights - 1);
-
-    bool b = IsMeasurable(target, weights, nWeights - 1);
-
-    bool c = IsMeasurable(target + weights[nWeights - 1], weights, nWeights - 1);
-
-    return (a || b || c);
+    res += c[n - 1];
+    return res;
+}
+void dehash(int k, char *c, int n)
+{
+    for (int i = n - 1; i >= 0; i--)
+    {
+        c[i] = k % 256;
+        k /= 256;
+    }
 }
 int main()
 {
-
-    int weights[] = {1, 3};
-
-    int nWeights[]={2,3};
-    nWeights=weights;
-
+    char c[6] = "hello";
+    int k = gethash(c, 6);
+    dehash(k, c, 6);
+    cout << c;
 }
