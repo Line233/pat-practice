@@ -9,7 +9,12 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}\\exe\\${fileBasenameNoExtension}.exe",
-            "args": [],
+            "args": [
+                "<",
+                ".//input//${fileBasenameNoExtension}.txt",
+                ">",
+                ".//output.txt"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot} ",
             "environment": [],
