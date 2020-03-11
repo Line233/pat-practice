@@ -16,6 +16,10 @@
         "string_view": "cpp",
         "system_error": "cpp",
         "iosfwd": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "limits": "cpp",
+        "streambuf": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp"
     }
 }
