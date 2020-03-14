@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 bool compare(string name1, string name2);
+vector<int> errors;
 int main(int argc, char **argv)
 {
     bool issame = true;
@@ -11,10 +13,20 @@ int main(int argc, char **argv)
         string str2(argv[i]);
         if (!compare(str1, str2))
         {
-            return 0;
+            issame = false;
         }
     }
-    cout << "same";
+    if (issame)
+        cout << "pass";
+    else
+    {
+        cout << "errors:"
+             << "\t";
+        for (int i = 0; i < errors.size(); i++)
+        {
+            cout << "\t" << errors[i] << endl;
+        }
+    }
     return 0;
 }
 bool compare(string name1, string name2)
@@ -25,20 +37,30 @@ bool compare(string name1, string name2)
     data2.open(name2);
     string str1, str2;
     int line = 1;
-    while (getline(data1, str1) && getline(data2, str2))
+    bool over1 = false, over2 = false;
+    while (!(over1 && over2))
     {
-        int i = str1.compare(str2);
-        if (i != 0)
+        if (!getline(data1, str1))
+            over1 = true;
+        if (!getline(data2, str2))
+            over2 = true;
+        if (over1 != over2)
         {
+            errors.push_back(line);
             isSame = false;
-            cout << "different line: " << line << endl;
+            break;
+        }
+        else if (over1 == true)
+            break;
+        else
+        {
+            if (str1!= str2)
+            {
+                isSame = false;
+                errors.push_back(line);
+            }
         }
         line++;
-    }
-    if (str1.size() != str2.size())
-    {
-        isSame = false;
-        cout << "different line: " << line << endl;
     }
     return isSame;
 }
