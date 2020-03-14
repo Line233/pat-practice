@@ -1,4 +1,5 @@
 // https://pintia.cn/problem-sets/994805342720868352/problems/994805351814119424
+//SUMMARY 哈密顿通路
 #include <stdio.h>
 #include <iostream>
 
