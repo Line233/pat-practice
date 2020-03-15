@@ -2,7 +2,8 @@ param (
     [string]$name,
     [switch]$c = $false,
     [switch]$m = $false,
-    [switch]$r = $false
+    [switch]$r = $false,
+    [switch]$remove = $false
 )
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
@@ -35,4 +36,16 @@ if ($PSBoundParameters.ContainsKey('r')) {
 if ($PSBoundParameters.ContainsKey('c')) {
     $cmdOutput = &$compare $output .//output.txt 2>&1
     Write-Host $cmdOutput
+}
+
+if ($PSBoundParameters.ContainsKey('remove')) {
+    if (!(Test-Path $source)) {
+        Remove-Item  $source
+    }
+    if (!(Test-Path $input)) {
+        Remove-Item  $input
+    }
+    if (!(Test-Path $output)) {
+        Remove-Item  $output
+    }
 }

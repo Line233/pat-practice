@@ -37,7 +37,7 @@
             "program": "${workspaceRoot}\\exe\\${fileBasenameNoExtension}.exe",
             "args": [
                 "./output.txt",
-                "./output//1062-2.txt"
+                "./output//1147-2.txt"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot} ",
