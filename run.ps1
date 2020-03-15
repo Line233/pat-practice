@@ -39,13 +39,13 @@ if ($PSBoundParameters.ContainsKey('c')) {
 }
 
 if ($PSBoundParameters.ContainsKey('remove')) {
-    if (!(Test-Path $source)) {
+    if ((Test-Path $source)) {
         Remove-Item  $source
     }
-    if (!(Test-Path $input)) {
+    if ((Test-Path $input)) {
         Remove-Item  $input
     }
-    if (!(Test-Path $output)) {
+    if ((Test-Path $output)) {
         Remove-Item  $output
     }
 }
