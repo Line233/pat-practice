@@ -1,5 +1,5 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/type/7?page=1
-//SUMMARY 堆
+//SUMMARY 堆 树的后序非递归遍历
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
@@ -25,64 +25,58 @@ int right(int k)
 {
     return left(k) + 1;
 }
-int parent(int k)
-{
-    return k / 2;
-}
-bool IsMaxHeap(int *tree, int n)
+
+int HeapType(int *tree, int n)
 {
     if (n == 1)
         return 1;
+    int res = 0;
     int k = 1;
-    while (k <= n)
+    while (k <= n / 2)
     {
-        int leftx = left(k);
-        int rightx = right(k);
-        if (leftx <= n)
+        int child = left(k);
+        for (int i = child; i < child + 2 && child <= n; i++)
         {
-            if (tree[k] < tree[leftx])
-                return false;
-            if (rightx <= n)
-                if (tree[k] < tree[rightx])
-                    return false;
+            int sub = (tree[k] - tree[child]);
+            if (res == 0)
+                res = sub;
+            else if (res * sub < 0)
+                return 0;
         }
         k++;
     }
-    return true;
-}
-bool IsMinHeap(int *tree, int n)
-{
-    if (n == 1)
-        return 1;
-    int k = 1;
-    while (k <= n)
-    {
-        int leftx = left(k);
-        int rightx = right(k);
-        if (leftx <= n)
-        {
-            if (tree[k] > tree[leftx])
-                return false;
-            if (rightx <= n)
-                if (tree[k] > tree[rightx])
-                    return false;
-        }
-        k++;
-    }
-    return true;
+    return res > 0 ? 1 : -1;
 }
 void posttraverse(int *tree, int pos, int n)
 {
-    int leftx = left(pos);
-    int rightx = right(pos);
-    if (leftx <= n)
-        posttraverse(tree, leftx, n);
-    if (rightx <= n)
-        posttraverse(tree, rightx, n);
-
-    printf("%d", tree[pos]);
-    if (pos != 1)
-        printf(" ");
+    vector<int> nodes;
+    nodes.push_back(1);
+    int pre = -1;
+    while (!nodes.empty())
+    {
+        int work = nodes.back();
+        if (work == 0)
+        {
+            nodes.pop_back();
+            pre = work;
+            continue;
+        }
+        int rightx = right(work) <= n ? right(work) : 0;
+        int leftx = left(work) <= n ? left(work) : 0;
+        if (pre == rightx)
+        {
+            printf("%d", tree[work]);
+            if (work != 1)
+                printf(" ");
+            nodes.pop_back();
+            pre = work;
+        }
+        else
+        {
+            nodes.push_back(rightx);
+            nodes.push_back(leftx);
+        }
+    }
 }
 int main(void)
 {
@@ -95,21 +89,19 @@ int main(void)
             scanf("%d", &input);
             Trees[i][j] = input;
         }
-        int isMax, IsMin;
-        isMax = IsMaxHeap(Trees[i], NKeys);
-        IsMin = IsMinHeap(Trees[i], NKeys);
-        if (isMax)
+        int heaptype;
+        heaptype = HeapType(Trees[i], NKeys);
+        switch (heaptype)
         {
+        case 1:
             printf("Max Heap\n");
-        }
-
-        else if (IsMin)
-        {
+            break;
+        case -1:
             printf("Min Heap\n");
-        }
-        else
-        {
+            break;
+        default:
             printf("Not Heap\n");
+            break;
         }
         posttraverse(Trees[i], 1, NKeys);
         printf("\n");
