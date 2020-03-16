@@ -1,5 +1,5 @@
 // https://pintia.cn/problem-sets/994805342720868352/problems/994805343727501312
-//SUMMARY 树
+//SUMMARY 树,查找最近共同祖先
 #include <stdio.h>
 #include <algorithm>
 
