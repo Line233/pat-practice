@@ -1,5 +1,5 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/1071785408849047552
-//SUMMARY template
+//SUMMARY 堆 判断大根 小根 还可以用深度遍历
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
