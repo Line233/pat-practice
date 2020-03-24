@@ -1,6 +1,6 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/994805489282433024
 //SUMMARY 图，最短路径算法，深度优先搜索
-//TODO 有bug
+//TODO fix bug
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
@@ -121,7 +121,8 @@ int dijstic()
     int now = 0;
     Lengh[now] = 0;
     Reached[now] = true;
-    while (!Reached[Error])
+    int count = 1;
+    while (!Reached[Error] && count <= Nstations)
     {
         for (int i = 1; i <= Nstations; i++)
         {
@@ -140,6 +141,7 @@ int dijstic()
         }
         now = findmin();
         Reached[now] = true;
+        count++;
     }
     return 0;
 }
