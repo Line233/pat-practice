@@ -1,5 +1,5 @@
 // website
-//SUMMARY 树
+//SUMMARY 倒置树
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
