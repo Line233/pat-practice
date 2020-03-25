@@ -15,13 +15,13 @@ int Nstations;
 int Error;
 int Nedges;
 
-int Bikes[501];
+int Bikes[510];
 
-int Edges[501][501];
+int Edges[510][510];
 
-vector<int> Pre[501];
-int Lengh[501];
-bool Reached[501];
+vector<int> Pre[510];
+int Lengh[510];
+bool Reached[510];
 
 int dijstic();
 int findmin();
@@ -36,7 +36,7 @@ void compute(int &takemax, int &over);
 
 int main(void)
 {
-    fill(*Edges, *Edges + 501 * 501, -1);
+    fill(*Edges, *Edges + 510 * 510, -1);
     scanf("%d%d%d%d", &Capicity, &Nstations, &Error, &Nedges);
     for (int i = 1; i <= Nstations; i++)
         scanf("%d", &Bikes[i]);
@@ -116,13 +116,13 @@ int dfs(int v)
 }
 int dijstic()
 {
-    fill(Lengh, Lengh + 501, INT_MAX);
-    fill(Reached, Reached + 501, false);
+    fill(Lengh, Lengh + 510, INT_MAX);
+    fill(Reached, Reached + 510, false);
     int now = 0;
     Lengh[now] = 0;
     Reached[now] = true;
-    int count = 1;
-    while (!Reached[Error] && count <= Nstations)
+    int count=0;
+    while (count<Nstations)
     {
         for (int i = 1; i <= Nstations; i++)
         {

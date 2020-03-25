@@ -4,6 +4,7 @@ param (
     [switch]$m = $false,
     [switch]$r = $false,
     [switch]$g = $false,
+    [switch]$tmpexe = $false,
     [int]$debug = 0,
     [switch]$remove = $false
 )
@@ -78,6 +79,13 @@ if ($PSBoundParameters.ContainsKey('remove')) {
     }
 }
 
+
+if ($PSBoundParameters.ContainsKey('tmpexe')) {
+    $tmp = ".\exe\tmp.exe"
+    $output_tmp = ".\output2.txt"
+    RunAndWrite $inputfile $tmp $output_tmp
+}
+
 if ($PSBoundParameters.ContainsKey('debug')) {
     $tmp = ".\exe\tmp.exe"
     $output_tmp = ".\output2.txt"
@@ -87,11 +95,9 @@ if ($PSBoundParameters.ContainsKey('debug')) {
         RunAndWrite $inputfile $exe $output_exe
         Write-Host $i " "
         $cmdOutput = &$compare $name1 $name2 2>&1
-        if($cmdOutput -eq "pass")
-           { Write-Host $cmdOutput}
+        if ($cmdOutput -eq "pass")
+        { Write-Host $cmdOutput }
         else 
-       {     break}
+        { break }
     }
-    
-    
 }
