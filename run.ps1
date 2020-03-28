@@ -27,8 +27,8 @@ function RunAndWrite($inputfile, $exe, $output ) {
 }
 function generate {
     . ".\exe\g$name.exe" -Encoding utf8  > $inputfile
-    $content = (Get-Content $output) 
-    [IO.File]::WriteAllLines($output, $content)
+    $content = (Get-Content $inputfile) 
+    [IO.File]::WriteAllLines($inputfile, $content)
 }
 function fcompare {
     param (
@@ -94,10 +94,12 @@ if ($PSBoundParameters.ContainsKey('debug')) {
         RunAndWrite $inputfile $tmp $output_tmp
         RunAndWrite $inputfile $exe $output_exe
         Write-Host $i " "
-        $cmdOutput = &$compare $name1 $name2 2>&1
+        $cmdOutput = &$compare $output_tmp $output_exe 2>&1
         if ($cmdOutput -eq "pass")
         { Write-Host $cmdOutput }
-        else 
-        { break }
+        else {
+            Write-Host $cmdOutput
+            break 
+        }
     }
 }
