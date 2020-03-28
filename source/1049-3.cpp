@@ -1,5 +1,5 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/994805430595731456
-//SUMMARY template
+//SUMMARY 数论？排列组合？
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
