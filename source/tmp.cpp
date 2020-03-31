@@ -20,14 +20,10 @@ long long f1(long long k)
 }
 int main(void)
 {
-    fill(num,num+30,-1);
-    long long n;
-    cin >> n;
-    long long sum = 0;
-    for (long long i = 1; i <= n; i++)
-    {
-        sum += f1(i);
-    }
-    cout << sum;
+
+    int x = 0;
+    int &x2 = x;
+    x = 10;
+    cout << x2;
     return 0;
 }
