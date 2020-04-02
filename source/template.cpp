@@ -1,5 +1,7 @@
-// website 
-//SUMMARY template
+// website
+/*SUMMARY 
+    template
+*/
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>

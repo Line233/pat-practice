@@ -1,5 +1,9 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/994805449625288704
-//SUMMARY 数序列  输出值暂存处理  特别是0值
+/*SUMMARY 
+    数序列 
+    输出值暂存处理 便于二次输出
+    注意0值
+*/
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
