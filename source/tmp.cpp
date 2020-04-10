@@ -1,29 +1,49 @@
-//https://pintia.cn/problem-sets/994805342720868352/problems/994805430595731456
-//SUMMARY template
 #include <iostream>
+#include <vector>
 #include <algorithm>
-#include <stdio.h>
-
 using namespace std;
-
-int num[30];
-long long f1(long long k)
+int dp[10010], w[10010];
+bool choice[10010][110];
+int cmp1(int a, int b) { return a > b; }
+int main()
 {
-    long long sum = 0;
-    while (k > 0)
+    int n, m;
+    scanf("%d%d", &n, &m);
+    for (int i = 1; i <= n; i++)
+        scanf("%d", &w[i]);
+    sort(w + 1, w + n + 1, cmp1);
+    for (int i = 1; i <= n; i++)
     {
-        if (k % 10 == 1)
-            sum++;
-        k /= 10;
+        for (int j = m; j >= w[i]; j--)
+        {
+            if (dp[j] <= dp[j - w[i]] + w[i])
+            {
+                choice[i][j] = true;
+                dp[j] = dp[j - w[i]] + w[i];
+            }
+        }
     }
-    return sum;
-}
-int main(void)
-{
-
-    int x = 0;
-    int &x2 = x;
-    x = 10;
-    cout << x2;
+    if (dp[m] != m)
+        printf("No Solution");
+    else
+    {
+        vector<int> arr;
+        int v = m, index = n;
+        while (v > 0)
+        {
+            if (choice[index][v] == true)
+            {
+                arr.push_back(w[index]);
+                v -= w[index];
+            }
+            index--;
+        }
+        for (int i = 0; i < arr.size(); i++)
+        {
+            if (i != 0)
+                printf(" ");
+            printf("%d", arr[i]);
+        }
+    }
     return 0;
 }
