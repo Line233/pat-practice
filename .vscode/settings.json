@@ -44,6 +44,7 @@
         "set": "cpp",
         "utility": "cpp",
         "initializer_list": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "stack": "cpp"
     }
 }

@@ -1,6 +1,8 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/994805417945710592
 /*SUMMARY 
     栈
+    树形数组
+    //树形数组用于查找前kth个数（可以用于中位数
 */
 //TODO fix bug
 #include <iostream>
@@ -10,14 +12,59 @@
 #include <string>
 using namespace std;
 
-vector<int> stack;
-vector<int> cmp;
+vector<int> Stack;
+const int MaxIndex = 131072;//2的幂，用于建树
+vector<int> Hash(MaxIndex + 1);
+vector<int> Tree(MaxIndex + 1);
 const string pop = "Pop";
 const string push = "Push";
 const string pm = "PeekMedian";
 
+int lowbit(int k)
+{
+    return k & (-k);
+}
+void sub(int k)
+{
+    Hash[k]--;
+    while (k <= MaxIndex)
+    {
+        Tree[k]--;
+        k += lowbit(k);//向上查找
+    }
+}
+void add(int k)
+{
+    Hash[k]++;
+    while (k <= MaxIndex)
+    {
+        Tree[k]++;
+        k += lowbit(k);
+    }
+}
+int findnum(int node, int kth)
+{
+    if (Tree[node] < kth)
+        exit(-1);
+    int sub = lowbit(node) / 2;
+    int high = 0;
+    int low = 0;
+    while (sub > 0)//查找所有儿子
+    {
+        high += Tree[node - sub];
+        if (high >= kth)
+            return findnum(node - sub, kth - low);
+        sub /= 2;
+        low = high;
+    }
+    //sub==0 leaf
+    return node;
+}
+
 int main(void)
 {
+    fill(Hash.begin(), Hash.end(), 0);
+    fill(Tree.begin(), Tree.end(), 0);
     int n;
     cin >> n;
     for (int i = 0; i < n; i++)
@@ -26,19 +73,12 @@ int main(void)
         cin >> op;
         if (op == pop)
         {
-            if (stack.size() != 0)
+            if (Stack.size() != 0)
             {
-                int k = stack.back();
+                int k = Stack.back();
                 cout << k << endl;
-                stack.pop_back();
-                for (auto ite = cmp.begin(); ite != cmp.end(); ite++)
-                {
-                    if (*ite == k)
-                    {
-                        cmp.erase(ite);
-                        break;
-                    }
-                }
+                Stack.pop_back();
+                sub(k);
             }
             else
                 cout << "Invalid" << endl;
@@ -47,18 +87,15 @@ int main(void)
         {
             int k;
             cin >> k;
-            stack.push_back(k);
-            auto ite = cmp.begin();
-            while ((ite != cmp.end()) && *ite < k)
-                ite++;
-            cmp.insert(ite, k); //在ite之前插入
+            Stack.push_back(k);
+            add(k);
         }
-        else
+        else //median
         {
-            if (stack.size() != 0)
+            if (Stack.size() != 0)
             {
-                int index = (stack.size() + 1) / 2 - 1;
-                cout << cmp[index] << endl;
+                int k = findnum(MaxIndex, (Stack.size() + 1) / 2);
+                cout << k << endl;
             }
             else
                 cout << "Invalid" << endl;
