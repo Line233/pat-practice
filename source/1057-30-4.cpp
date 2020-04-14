@@ -13,7 +13,7 @@
 using namespace std;
 
 vector<int> Stack;
-const int MaxIndex = 131072;//2的幂，用于建树
+const int MaxIndex = 131072; //2的幂，用于建树
 vector<int> Hash(MaxIndex + 1);
 vector<int> Tree(MaxIndex + 1);
 const string pop = "Pop";
@@ -30,7 +30,7 @@ void sub(int k)
     while (k <= MaxIndex)
     {
         Tree[k]--;
-        k += lowbit(k);//向上查找
+        k += lowbit(k); //向上查找
     }
 }
 void add(int k)
@@ -42,6 +42,7 @@ void add(int k)
         k += lowbit(k);
     }
 }
+//方法1：树：从上往下查找
 int findnum(int node, int kth)
 {
     if (Tree[node] < kth)
@@ -49,7 +50,7 @@ int findnum(int node, int kth)
     int sub = lowbit(node) / 2;
     int high = 0;
     int low = 0;
-    while (sub > 0)//查找所有儿子
+    while (sub > 0) //查找所有儿子
     {
         high += Tree[node - sub];
         if (high >= kth)
@@ -59,6 +60,28 @@ int findnum(int node, int kth)
     }
     //sub==0 leaf
     return node;
+}
+//方法二：二分查找
+int getsum(int k) //求前缀和
+{
+    int sum = 0;
+    while (k > 0)
+    {
+        sum += Tree[k];
+        k -= lowbit(k);
+    }
+    return sum;
+}
+int findnum(int low, int high, int kth) //meian
+{
+    if (high <= low)
+        return low;
+    int m = (high + low) / 2;
+    int sum = getsum(m);
+    if (sum >= kth)
+        return findnum(low, m, kth);
+    else
+        return findnum(m+1, high, kth);
 }
 
 int main(void)
@@ -94,7 +117,7 @@ int main(void)
         {
             if (Stack.size() != 0)
             {
-                int k = findnum(MaxIndex, (Stack.size() + 1) / 2);
+                int k = findnum(1, MaxIndex, (Stack.size() + 1) / 2);
                 cout << k << endl;
             }
             else
