@@ -1,6 +1,7 @@
-// website
+//https://pintia.cn/problem-sets/994805342720868352/problems/994805396953219072
 /*SUMMARY 
-    template
+    有限点的最短路径算法
+    多次dijstic算法
 */
 #include <iostream>
 #include <algorithm>
@@ -12,13 +13,24 @@ using namespace std;
 
 const int MaxDot = 1011;
 int CityMap[MaxDot][MaxDot];
+
+int Nhouse;
+int Ncsta;
+int Ndots;
+int Nrange;
+
 typedef struct node
 {
     int id = 0;
     float average = INT_MAX;
     int min = INT_MAX;
 } node;
-
+vector<node> res;
+typedef struct node2
+{
+    int weight = INT_MAX;
+    bool read = false;
+} node2;
 int HouseId(int k)
 {
     return 10 + k;
@@ -45,6 +57,19 @@ int DotId(char *c)
         return HouseId(getint(str));
     }
 }
+int findmin(vector<node2> weights)
+{
+    int minx = INT_MAX, index = -1;
+    for (int i = 1; i < weights.size(); i++)
+    {
+        if (weights[i].read == false && minx >= weights[i].weight)
+        {
+            minx = weights[i].weight;
+            index = i;
+        }
+    }
+    return index;
+}
 bool cmp(node &a, node &b)
 {
     if (a.min != b.min)
@@ -54,17 +79,48 @@ bool cmp(node &a, node &b)
     else
         return a.id < b.id;
 }
-
-int Nhouse;
-int Ncsta;
-int Ndots;
-int Nrange;
+void djk(int start)
+{
+    int sum = 0;
+    int mindist = INT_MAX;
+    vector<node2> weights(Ndots + 1);
+    weights[start].weight = 0;
+    int in = findmin(weights);
+    while (in != -1)
+    {
+        if (in > 10)
+        {
+            if (weights[in].weight > Nrange)
+                return;
+            sum += weights[in].weight;
+            if (weights[in].weight < mindist)
+                mindist = weights[in].weight;
+        }
+        weights[in].read = true;
+        for (int i = 1; i <= Ndots; i++)
+        {
+            if (weights[i].read)
+                continue;
+            if (CityMap[in][i] != INT_MAX &&
+                weights[i].weight > CityMap[in][i] + weights[in].weight)
+                weights[i].weight = CityMap[in][i] + weights[in].weight;
+        }
+        in = findmin(weights);
+    }
+    node r;
+    r.average = (float)sum / (float)Nhouse;
+    r.id = start;
+    r.min = mindist;
+    res.push_back(r);
+    return;
+}
 
 int main(void)
 {
     fill(*CityMap, *CityMap + MaxDot * MaxDot, INT_MAX);
     int nroad;
     cin >> Nhouse >> Ncsta >> nroad >> Nrange;
+    Ndots = 10 + Nhouse;
     for (int i = 0; i < nroad; i++)
     {
         char dot[10];
@@ -77,42 +133,9 @@ int main(void)
         CityMap[a][b] = wei;
         CityMap[b][a] = wei;
     }
-    Ndots = 10 + Nhouse;
-    for (int i = 1; i <= Ndots; i++)
-        for (int j = 1; j <= Ndots; j++)
-            for (int k = 1; k <= Ndots; k++)
-            {
-                if (CityMap[j][i] != INT_MAX && CityMap[i][k] != INT_MAX)
-                {
-                    CityMap[j][k] = min(CityMap[j][k], CityMap[j][i] + CityMap[i][k]);
-                    CityMap[k][j] = CityMap[j][k];
-                }
-            }
-    vector<node> res;
-
     for (int i = 1; i <= Ncsta; i++)
-    {
-        int sum = 0;
-        int count = 0;
-        int minx = INT_MAX;
-        bool right = true;
-        for (int j = 11; j <= Ndots; j++)
-        {
-            if (CityMap[j][i] != INT_MAX)
-            {
-                if (CityMap[j][i] > Nrange)
-                {
-                    right = false;
-                    break;
-                }
-                sum += CityMap[j][i];
-                count++;
-                minx = min(minx, CityMap[j][i]);
-            }
-        }
-        if (right)
-            res.push_back({i, (float)sum / (float)count, minx});
-    }
+        djk(i);
+
     if (res.size() == 0)
         cout << "No Solution";
     else
