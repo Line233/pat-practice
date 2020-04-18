@@ -1,7 +1,7 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/994805379664297984
-/*SUMMARY 
-    template
-*/
+//SUMMARY 多权重最短路径算法
+//TODO fix bug
+
 #include <iostream>
 #include <algorithm>
 #include <stdio.h>
