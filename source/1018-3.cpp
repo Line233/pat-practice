@@ -1,5 +1,5 @@
 //https://pintia.cn/problem-sets/994805342720868352/problems/994805489282433024
-//SUMMARY 图，最短路径算法，深度优先搜索
+//SUMMARY 图，最短路径算法，深度优先搜索 最优子结构
 //TODO fix bug
 #include <iostream>
 #include <algorithm>
@@ -121,8 +121,8 @@ int dijstic()
     int now = 0;
     Lengh[now] = 0;
     Reached[now] = true;
-    int count=0;
-    while (count<Nstations)
+    int count = 0;
+    while (count < Nstations)
     {
         for (int i = 1; i <= Nstations; i++)
         {
