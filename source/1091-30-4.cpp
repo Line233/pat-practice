@@ -58,22 +58,22 @@ int bfs(int m, int n, int l)
     in[2] = l;
     queue<int *> que;
     que.push(in);
+    node *now = getnode(in);
+    now->read = true;
     while (que.size() != 0)
     {
         in = que.front();
-        node *now = getnode(in);
-        if (now->read)
-        {
-            que.pop();
-            continue;
-        }
+        now = getnode(in);
         count++;
-        now->read = true;
         for (int i = 0; i < 6; i++)
         {
             int *in2 = next(in, i);
-            if (inborder(in2) && !getnode(in2)->read && getnode(in2)->isstroke)
+            now = getnode(in2);
+            if (inborder(in2) && !now->read && now->isstroke)
+            {
+                now->read = true;
                 que.push(in2);
+            }
         }
         free(que.front());
         que.pop();
