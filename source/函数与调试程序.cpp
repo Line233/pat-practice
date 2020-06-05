@@ -104,13 +104,13 @@ int main(void)
             cin >> P[i][j];
     }
     vector<vector<double>> result = get_groups(num_people, P);
-    for (int i = 0; i < result.size(); i++)
+    for(int i=0;i<result.size();i++)
     {
-        for (int j = 0; j < result[i].size(); j++)
+        for(int j=0;j<result[i].size();j++)
         {
-            cout << result[i][j] << "\t";
+            cout<<result[i][j]<<"\t";
         }
-        cout << endl;
+        cout<<endl;
     }
     return 0;
 }
